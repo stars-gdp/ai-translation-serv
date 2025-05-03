@@ -11,5 +11,6 @@ class WhisperTranscriber(BaseTranscriber):
         self.model = whisper.load_model(model_name)
 
     def transcribe(self, audio_segment: str | np.ndarray) -> str:
+        logger.debug(self.model.device)
         result = self.model.transcribe(audio=audio_segment, language="ru", verbose=False)
         return result.get("text", "")

@@ -1,8 +1,8 @@
 # main.py
 
 from server.socket_server import run_server
-from vad.silero_vad import SileroVAD
 from transcribers.whisper_local import WhisperTranscriber
+from translators.nllb import NLLBTranslator
 from core.pipeline import AudioProcessingPipeline
 from loguru import logger
 import sys
@@ -12,10 +12,11 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 def main():
     # Инициализация компонентов
-    logger.info("Initializing VAD and Transcriber modules...")
-    vad = SileroVAD()
+    logger.info("Initializing modules...")
     transcriber = WhisperTranscriber()
-    pipeline = AudioProcessingPipeline(vad=vad, transcriber=transcriber)
+    translator = NLLBTranslator()
+
+    pipeline = AudioProcessingPipeline(translator=translator, transcriber=transcriber)
 
     # Запуск socket.io сервера
     logger.info("Starting Socket.IO server...")
